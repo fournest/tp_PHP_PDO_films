@@ -2,6 +2,7 @@
 include 'includes/head.php';
 include 'includes/header.php';
 include 'includes/menu.php';
+include 'includes/db.php';
 
 
 
@@ -30,29 +31,30 @@ if (!empty($_POST)) {
         'realisateur' => $_POST['realisateur'],
         'annee' => $_POST['annee'],
         'genre' => $_POST['genre'],
-        'resume' => $_POST['resume'],
+        'resume' => $_POST['resume']
         
     ]);
 
-    // echo "<pre>" . print_r($_POST, true) . "</pre>";
+   header('Location: index.php');
 }
 
 ?>
 
 <h2>Ajouter vos DVD ici!</h2>
 
-<form action="index.php" method="POST">
+<form action="ajouter.php" method="POST">
+    
     <label for=""> Le titre du DVD</label>
     <input type="text" name="titre">
     <label for="">Le réalisateur</label>
     <input type="text" name="realisateur">
-    <label for="">Année de réalisation</label>
+    <label for="">Année de sortie en salle</label>
     <input type="text" name="annee">
     <label for="">Le genre du film</label>
     <input type="text" name="genre">
     <label for="">Le résumé</label>
-    <input type="text" name="resume">
-    <input type="submit" value="Rangez votre DVD!">
+    <textarea type="text" name="resume"></textarea>
+    <input type="submit" value="Rangez votre DVD ici!">
 </form>
 
 

@@ -8,6 +8,7 @@
 include 'includes/head.php';
 include 'includes/menu.php';
 require 'includes/header.php';
+include 'includes/db.php';
 
 
 
@@ -19,8 +20,8 @@ require 'includes/header.php';
 
 ?>
 
-<h1>Votre répertoire de films</h1>
-<div class="img-principale">
+<h1>VOTRE REPÉRTOIRE DE FILMS</h1>
+<div class="img_principale">
     <h2>"Votre collection, en un clic."</h2>
     <img src="./img/library-488672_640.jpg" alt="bibliothèque de DVD">
 </div>
