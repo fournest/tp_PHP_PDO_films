@@ -49,7 +49,10 @@ if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT) ) {
     <select name="genre" id="genre">
         <option value="">-- Sélectionez un genre --</option>
         <?php foreach ($genres as $genre) : ?>
-            <option value="<?= htmlspecialchars($genre['id']); ?>">
+            <option value="<?= htmlspecialchars($genre['id']); ?>"
+            <?php if ($genre['id'] === $film['genre_id']): ?>
+            selected 
+            <?php endif ?>>
                 <?= htmlspecialchars($genre['nom']); ?>
             </option>
         <?php endforeach; ?>
