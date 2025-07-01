@@ -4,6 +4,7 @@ include 'includes/header.php';
 include 'includes/menu.php';
 include 'includes/db.php';
 
+$genres = $pdo->query("SELECT id, nom FROM genres ORDER BY nom ASC")->fetchAll();
 
 
 if (!empty($_POST)) {
@@ -12,7 +13,7 @@ if (!empty($_POST)) {
             titre,
             realisateur,
             annee,
-            genre,
+            genre_id,
             resume
             
         ) VALUES (
@@ -32,10 +33,10 @@ if (!empty($_POST)) {
         'annee' => $_POST['annee'],
         'genre' => $_POST['genre'],
         'resume' => $_POST['resume']
-        
+
     ]);
 
-   header('Location: index.php');
+    header('Location: index.php');
 }
 
 ?>
@@ -43,7 +44,7 @@ if (!empty($_POST)) {
 <h2>Ajouter vos DVD ici!</h2>
 
 <form action="ajouter.php" method="POST">
-    
+
     <label for=""> Le titre du DVD</label>
     <input type="text" name="titre">
     <label for="">Le réalisateur</label>
@@ -51,13 +52,22 @@ if (!empty($_POST)) {
     <label for="">Année de sortie en salle</label>
     <input type="text" name="annee">
     <label for="">Le genre du film</label>
-    <input type="text" name="genre">
+    <select name="genre" id="genre">
+        <option value="">-- Sélectionez un genre --</option>
+        <?php foreach ($genres as $genre) : ?>
+            <option value="<?= htmlspecialchars($genre['id']); ?>">
+                <?= htmlspecialchars($genre['nom']); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
     <label for="">Le résumé</label>
     <textarea type="text" name="resume"></textarea>
     <input type="submit" value="Rangez votre DVD ici!">
 </form>
 
 
-<?php 
+<?php
 
 include 'includes/footer.php';
+
+?>

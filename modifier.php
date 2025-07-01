@@ -4,10 +4,10 @@ include 'includes/header.php';
 include 'includes/menu.php';
 include 'includes/db.php';
 
-
+$genres = $pdo->query("SELECT id, nom FROM genres ORDER BY nom ASC")->fetchAll();
 
 if (!empty($_POST)) {
-    $sql = 'UPDATE films SET titre = :titre, realisateur = :realisateur, annee = :annee, genre = :genre, resume = :resume WHERE id = :id';
+    $sql = 'UPDATE films SET titre = :titre, realisateur = :realisateur, annee = :annee, genre_id = :genre, resume = :resume WHERE id = :id';
     $stmt = $pdo->prepare($sql);
     // echo "DVD mis à jour avec succès.";
 
@@ -25,10 +25,10 @@ if (!empty($_POST)) {
     header('Location: index.php');
 }
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+if (isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT) ) {
     $filmId = $_GET['id'];
 
-    $sql = 'SELECT * FROM films WHERE id= :id';
+    $sql = 'SELECT films.*, genres.id AS genreId, genres.nom FROM films LEFT JOIN genres ON genres.id = films.genre_id WHERE films.id= :id';
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $filmId]);
     $film = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,7 +46,14 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     <label for="">Année de réalisation</label>
     <input type="text" name="annee" value="<?= htmlspecialchars($film['annee']) ?>">
     <label for="">Le genre du film</label>
-    <input type="text" name="genre" value="<?= htmlspecialchars($film['genre']) ?>">
+    <select name="genre" id="genre">
+        <option value="">-- Sélectionez un genre --</option>
+        <?php foreach ($genres as $genre) : ?>
+            <option value="<?= htmlspecialchars($genre['id']); ?>">
+                <?= htmlspecialchars($genre['nom']); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
     <label for="">Le résumé</label>
     <input type="text" name="resume" value="<?= htmlspecialchars($film['resume']) ?>">
     <input type="submit" value="Modifiez les informations">
@@ -57,4 +64,3 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 
 include 'includes/footer.php';
-// <br /><b>Warning</b>:  Undefined variable $film in <b>C:\xampp\htdocs\Arinfo\tp_PHP_PDO_films\modifier.php</b> on line <b>43</b><br /><br /><b>Warning</b>:  Trying to access array offset on value of type null in <b>C:\xampp\htdocs\Arinfo\tp_PHP_PDO_films\modifier.php</b> on line <b>43</b><br />
