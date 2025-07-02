@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'films_db_2';
+$dbname = 'films_db_3';
 $user = 'root';
 $pass = '';
 
